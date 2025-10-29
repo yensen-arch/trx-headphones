@@ -1,9 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { BannerDataTypes, ProductsTypes } from "../app/page";
 import FooterBanner from "../comps/FooterBanner";
 import MainBanner from "./MainBanner";
 import Products from "../app/Products";
+import ProductSort from "./ProductSort";
 
 interface HomeProps {
   products: ProductsTypes[];
@@ -11,6 +12,20 @@ interface HomeProps {
 }
 
 const Home = ({ products, bannerData }: HomeProps) => {
+  const [sortType, setSortType] = useState<string>("");
+
+  // Sort products based on selected sort type
+  const sortedProducts = useMemo(() => {
+    if (!sortType) return products;
+    
+    const sorted = [...products];
+    if (sortType === "low-to-high") {
+      return sorted.sort((a, b) => a.price - b.price);
+    } else if (sortType === "high-to-low") {
+      return sorted.sort((a, b) => b.price - a.price);
+    }
+    return sorted;
+  }, [products, sortType]);
 
   return (
     <main>
@@ -27,14 +42,19 @@ const Home = ({ products, bannerData }: HomeProps) => {
         {/* <p className=" text-base text-secondary">Best in the Market</p> */}
       </section>
 
-      {/* === SHOW PRODUCTS  */}
+      {/* === SORT COMPONENT  */}
+      <div className="lg:mx-20 px-4">
+        <ProductSort onSortChange={setSortType} currentSort={sortType} />
+      </div>
+
+      {/* === SHOW PRODUCTS - Changed from 4x3 to 3x4 grid  */}
       <section
-        className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4
+        className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3
        lg:mx-20 overflow-hidden
       "
       >
         {/* === MAP PRODUCTS  */}
-        {products?.map((products: ProductsTypes) => {
+        {sortedProducts?.map((products: ProductsTypes) => {
           return <Products key={products._id} products={products} />;
         })}
       </section>

@@ -1,4 +1,3 @@
-import styles from "../styles/Marquee.module.css";
 import Products from "../app/Products";
 import { memo } from "react";
 
@@ -11,7 +10,10 @@ const Marquee = ({ products }) => {
       </h1>
 
       <section className=" mt-10 relative h-52 sm:h-96  w-full  overflow-hidden">
-        <div className={`flex  justify-center`}>
+        <div className={`flex justify-center animate-marquee`} style={{
+          animation: 'marquee 30s linear infinite',
+          animationDirection: ''
+        }}>
           {products.map((product) => (
             <Products gap={"mr-5"} key={product._id} products={product} />
           ))}

@@ -5,6 +5,7 @@ import { useNextSanityImage } from "next-sanity-image";
 import { ProductsTypes } from "./page";
 import { memo, useContext, useEffect, useState } from "react";
 import { UC } from "./context";
+import { convertToJPYWithCache } from "../lib/currency";
 
 interface ProductsProps {
   products: ProductsTypes;
@@ -13,6 +14,8 @@ interface ProductsProps {
 
 const Products = ({ products, gap }: ProductsProps) => {
   const [isLoaded, setIsloaded] = useState<boolean>(false);
+  const [jpyPrice, setJpyPrice] = useState<string>("");
+  const [jpyOldPrice, setJpyOldPrice] = useState<string>("");
   const { onAdd, cartItems } = useContext(UC);
 
   //  UPDATE THE COMP TO SHOW FAV
@@ -22,7 +25,15 @@ const Products = ({ products, gap }: ProductsProps) => {
 
   useEffect(() => {
     setIsloaded(true);
-  }, []);
+    // Convert prices to JPY
+    const convertPrices = async () => {
+      const price = await convertToJPYWithCache(products.price);
+      const oldPrice = await convertToJPYWithCache(products.oldPrice);
+      setJpyPrice(price);
+      setJpyOldPrice(oldPrice);
+    };
+    convertPrices();
+  }, [products.price, products.oldPrice]);
   const saveToLocalS = (product: ProductsTypes) => {
     if (localStorage.trxfav) {
       if (
@@ -68,9 +79,9 @@ const Products = ({ products, gap }: ProductsProps) => {
           <p> {products.name} </p>
           <div className=" flex gap-3">
             <span className=" text-sm text-lightGray line-through ">
-              ${products.oldPrice}
+              {jpyOldPrice || `$${products.oldPrice}`}
             </span>
-            <b className=" text-zinc-900 "> ${products.price} </b>
+            <b className=" text-zinc-900 "> {jpyPrice || `$${products.price}`} </b>
           </div>
         </nav>
 

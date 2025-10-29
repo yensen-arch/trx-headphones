@@ -1,18 +1,28 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 import Marquee from "../../comps/Marquee";
 import { urlFor } from "../../lib/client";
 import { UC } from "../context";
 import { Minus, Plus, Star } from "../../comps/Svg";
+import { convertToJPYWithCache } from "../../lib/currency";
 
 const Show = ({ product, products }) => {
   console.log("show");
   const { incQty, decQty, qty, onAdd } = useContext(UC);
   // USE STATES
   const [photoIndex, setphotoIndex] = useState(0);
-
+  const [jpyPrice, setJpyPrice] = useState("");
   const [zoom, setZoom] = useState(false);
+
+  // Convert price to JPY
+  useEffect(() => {
+    const convertPrice = async () => {
+      const price = await convertToJPYWithCache(product.price);
+      setJpyPrice(price);
+    };
+    convertPrice();
+  }, [product.price]);
 
   const imgMouseOver = (e) => {
     const img = document.getElementById("img");
@@ -101,7 +111,7 @@ const Show = ({ product, products }) => {
               <div className=" text-secondary font-medium ">DETAILS:</div>
               <p className="w-2/3 text-lightGray"> {product.details}</p>
 
-              <div className=" my-4 text-2xl font-bold"> ${product.price} </div>
+              <div className=" my-4 text-2xl font-bold"> {jpyPrice || `$${product.price}`} </div>
 
               {/* ==== QUANTITY SHOW  */}
               <div className="flex">
@@ -144,12 +154,12 @@ const Show = ({ product, products }) => {
                 Add to Cart
               </button>
 
-              <div
+              <button
                 className=" text-center hover:scale-105 transition shadow-md cursor-pointer
-                 bg-primary text-xl px-8 py-2  text-highLight ring-1 ring-primary"
+                 bg-primary text-white text-xl px-8 py-2  text-highLight ring-1 ring-primary w-full sm:w-auto"
               >
                 Buy Now
-              </div>
+              </button>
             </div>
           </section>
         </div>
