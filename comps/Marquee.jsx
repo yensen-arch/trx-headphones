@@ -1,4 +1,4 @@
-import Products from "../app/Products";
+import MarqueeProduct from "./MarqueeProduct";
 import { memo } from "react";
 
 const Marquee = ({ products }) => {
@@ -13,8 +13,7 @@ const Marquee = ({ products }) => {
         <div className="animate-marquee flex gap-4 sm:gap-2">
           {/* Double the products for seamless loop */}
           {[...products, ...products].map((product, index) => (
-            <Products 
-              gap="" 
+            <MarqueeProduct 
               key={`${product._id}-${index}`} 
               products={product} 
             />
