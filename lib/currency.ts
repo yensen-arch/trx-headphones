@@ -38,7 +38,7 @@ export const convertToJPYWithCache = async (usdPrice: number): Promise<string> =
     cachedRate = data.rates.JPY;
     lastFetch = now;
     
-    const jpyPrice = usdPrice * cachedRate ;
+    const jpyPrice = usdPrice * (cachedRate || 0);
     return `¥${Math.round(jpyPrice).toLocaleString('ja-JP')}`;
   } catch (error) {
     console.error('Currency conversion failed:', error);
