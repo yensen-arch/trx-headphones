@@ -49,9 +49,7 @@ const Home = ({ products, bannerData }: HomeProps) => {
 
       {/* === SHOW PRODUCTS - Changed from 4x3 to 3x4 grid  */}
       <section
-        className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3
-       lg:mx-20 overflow-hidden
-      "
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-6 lg:mx-20 lg:px-8"
       >
         {/* === MAP PRODUCTS  */}
         {sortedProducts?.map((products: ProductsTypes) => {
