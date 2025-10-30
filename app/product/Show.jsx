@@ -14,7 +14,6 @@ const Show = ({ product, products }) => {
   // USE STATES
   const [photoIndex, setphotoIndex] = useState(0);
   const [jpyPrice, setJpyPrice] = useState("");
-  const [zoom, setZoom] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
   // Convert price to JPY
@@ -26,32 +25,11 @@ const Show = ({ product, products }) => {
     convertPrice();
   }, [product.price]);
 
-  const imgMouseOver = (e) => {
-    const img = document.getElementById("main-img");
-    if (!img) return;
-    
-    const rect = img.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    img.style.transformOrigin = `${x}px ${y}px`;
-    img.style.transform = "scale(2.5)";
-    setZoom(true);
-  };
-
-  const mouseLeave = () => {
-    const img = document.getElementById("main-img");
-    if (!img) return;
-    
-    img.style.transform = "scale(1)";
-    img.style.transformOrigin = "center";
-    setZoom(false);
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Breadcrumb */}
+        <div className="max-w-7xl mx-auto">
         <nav className="mb-6 text-sm text-gray-600">
           <span className="hover:text-primary transition-colors">Home</span>
           <span className="mx-2">/</span>
@@ -65,16 +43,13 @@ const Show = ({ product, products }) => {
             {/* === IMAGE SECTION */}
             <section className="space-y-4">
               {/* Main Image */}
-              <div className="relative overflow-hidden rounded-xl bg-gray-100 aspect-square group">
+              <div className="relative overflow-hidden rounded-xl aspect-square">
                 <img
-                  id="main-img"
-                  className={`object-cover w-full h-full transition-transform duration-300 cursor-zoom-in ${
+                  className={`object-cover w-full h-full transition-opacity duration-300 ${
                     imageLoaded ? 'opacity-100' : 'opacity-0'
                   }`}
                   src={urlFor(product.image && product.image[photoIndex])}
                   alt={product.model}
-                  onMouseMove={(e) => imgMouseOver(e)}
-                  onMouseLeave={mouseLeave}
                   onLoad={() => setImageLoaded(true)}
                 />
                 
@@ -82,11 +57,6 @@ const Show = ({ product, products }) => {
                 {!imageLoaded && (
                   <div className="absolute inset-0 bg-gray-200 animate-pulse"></div>
                 )}
-
-                {/* Zoom Indicator */}
-                <div className={`absolute top-4 right-4 bg-black/70 text-white text-xs px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity ${zoom ? 'hidden' : ''}`}>
-                  Hover to Zoom
-                </div>
               </div>
 
               {/* Thumbnail Images */}
@@ -139,7 +109,7 @@ const Show = ({ product, products }) => {
               </div>
 
               {/* Price */}
-              <div className="bg-gray-50 rounded-xl p-4 sm:p-6 border border-gray-200">
+              <div className="p-4 sm:p-6">
                 <p className="text-sm text-gray-600 mb-1">Price</p>
                 <p className="text-3xl sm:text-4xl font-bold text-gray-900">
                   {jpyPrice || `$${product.price}`}
@@ -185,37 +155,21 @@ const Show = ({ product, products }) => {
               {/* Action Buttons */}
               <div className="space-y-3 pt-4">
                 <button
-                  className="w-full bg-gradient-to-r from-primary to-green-600 text-white font-semibold text-base sm:text-lg py-4 sm:py-5 rounded-xl hover:from-green-600 hover:to-primary active:scale-95 transition-all duration-200 shadow-lg shadow-primary/30"
+                  className="w-full bg-gradient-to-r from-primary to-green-600 text-white font-semibold text-base sm:text-lg py-3 sm:py-3 rounded-xl hover:bg-green-600 hover:to-primary active:scale-95 transition-all duration-200 shadow-lg shadow-primary/30"
                   onClick={() => onAdd(product, qty)}
                 >
                   Add to Cart
                 </button>
 
                 <button
-                  className="w-full border-2 border-primary text-primary font-semibold text-base sm:text-lg py-4 sm:py-5 rounded-xl hover:bg-primary hover:text-white active:scale-95 transition-all duration-200"
+                  className="w-full border-2 border-primary text-primary font-semibold text-base sm:text-lg py-4 sm:py-4 rounded-xl hover:bg-primary hover:text-white active:scale-95 transition-all duration-200"
                 >
                   Buy Now
                 </button>
               </div>
-
-              {/* Trust Indicators */}
-              <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-200">
-                <div className="text-center">
-                  <div className="text-2xl mb-1">🚚</div>
-                  <p className="text-xs text-gray-600 font-medium">Free Shipping</p>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl mb-1">↩️</div>
-                  <p className="text-xs text-gray-600 font-medium">Easy Returns</p>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl mb-1">✓</div>
-                  <p className="text-xs text-gray-600 font-medium">1 Year Warranty</p>
-                </div>
-              </div>
             </section>
           </div>
-        </div>
+        </div></div>
 
         {/* Related Products */}
         <div className="mt-12 sm:mt-16">

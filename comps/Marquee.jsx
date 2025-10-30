@@ -4,18 +4,23 @@ import { memo } from "react";
 const Marquee = ({ products }) => {
   console.log("marquee");
   return (
-    <div className=" mt-20">
-      <h1 className=" text-center text-secondary text-xl font-extrabold">
-        You may also like
-      </h1>
+    <div className="mt-12 sm:mt-16">
+      <h2 className="text-center text-gray-900 text-2xl sm:text-3xl font-bold mb-8">
+        You May Also Like
+      </h2>
 
-      <section className=" mt-10 relative h-52 sm:h-96  w-full  overflow-hidden">
-        <div className={`flex justify-center animate-marquee`}>
-          {products.map((product) => (
-            <Products gap={"mr-5"} key={product._id} products={product} />
+      <div className="relative w-full overflow-hidden">
+        <div className="animate-marquee flex gap-4 sm:gap-2">
+          {/* Double the products for seamless loop */}
+          {[...products, ...products].map((product, index) => (
+            <Products 
+              gap="" 
+              key={`${product._id}-${index}`} 
+              products={product} 
+            />
           ))}
         </div>
-      </section>
+      </div>
     </div>
   );
 };

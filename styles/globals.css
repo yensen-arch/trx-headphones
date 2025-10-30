@@ -46,18 +46,19 @@
   color: #b41c4c;
 }
 
-/* Marquee animation for right-to-left flow */
+/* Marquee animation for right-to-left flow with infinite scroll */
 @keyframes marquee {
   0% {
-    transform: translateX(100%);
+    transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 
 .animate-marquee {
-  animation: marquee 30s linear infinite;
+  animation: marquee 60s linear infinite;
+  width: fit-content;
 }
 
 /* Hide scrollbar for horizontal thumbnail scroll */

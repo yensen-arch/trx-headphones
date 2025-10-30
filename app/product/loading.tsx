@@ -16,11 +16,6 @@ export default function loading() {
           <div className="w-16 h-16 border-4 border-gray-200 rounded-full"></div>
           <div className="absolute top-0 left-0 w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
         </div>
-        
-        {/* Loading Text */}
-        <p className="text-gray-600 font-medium text-lg animate-pulse">
-          Loading amazing products...
-        </p>
       </div>
 
       <style jsx>{`
