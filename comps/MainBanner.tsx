@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import Img from "next/image";
 import { useNextSanityImage } from "next-sanity-image";
 import { client } from "../lib/client";
 import { BannerDataTypes } from "../app/page";
@@ -11,10 +10,9 @@ const MainBanner = ({ banner }: { banner: BannerDataTypes }) => {
 
   return (
     <main
-      className=" md:mx-20 md:rounded-xl md:h-64 md:mb-8
-     ring-8 ring-lightDim1 shadow-lightDim
-     relative shadow-lg h-60 lg:h-80 pl-4 my-4 sm:my-8 bg-lightDim md:px-10"
+      className="relative  overflow-hidden md:mx-20 md:rounded-xl md:h-64 md:mb-8 ring-8 ring-lightDim1 shadow-lightDim shadow-lg h-60 lg:h-80 pl-4 my-4 sm:my-8 bg-lightDim md:px-10"
     >
+      <div className="pointer-events-none absolute inset-0 z-0 g" aria-hidden="true"></div>
       <section className="flex flex-col">
         <div className="mt-10">
           <p className=" font-bold text-lg">{banner.discount}</p>
@@ -32,16 +30,25 @@ const MainBanner = ({ banner }: { banner: BannerDataTypes }) => {
           </h1>
         </div>
 
-        {/* === MAIN IMAGE  */}
-
+        {/* === MAIN VIDEO  */}
         <div
-          className="drop-shadow-2xl absolute w-48 sm:self-center
-          lg:w-[340px] sm:w-60 self-end pt-10 sm:pt-0 lg:self-center"
+          className="absolute w-48 sm:self-center lg:w-[350px] mt-10 sm:w-60 self-end pt-10 sm:pt-0 lg:self-center"
+          style={{ zIndex: 1 }}
         >
-          <Img alt="img" className="  transition" {...imageProps} />
+          <video
+            src="/banner-vid.mp4"
+            className=" w-full h-full object-cover transition-all duration-700"
+            autoPlay
+            loop
+            muted
+            playsInline
+            aria-label="Promotional video banner"
+          ></video>
+          {/*
+          <Img alt="img" className="transition" {...imageProps} />
+          */}
           <div
-            className=" absolute bottom-10 blur-md left-0 right-0 mx-auto
-             bg-fullBlack blur-1xl h-4 opacity-20 rounded-full w-32"
+            className="absolute bottom-10 blur-md left-0 right-0 mx-auto bg-fullBlack blur-1xl h-4 opacity-20 rounded-full w-32"
           ></div>
         </div>
 
